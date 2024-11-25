@@ -31,3 +31,48 @@ It is designed to handle non-blocking I/O operations. For example, when a file i
 
 - More about Libuv: https://libuv.org/
 
+---
+
+### Event Loop
+
+The event loop is the core of Node.js architecture. It's a loop that waits for events and processes them. It's designed to be non-blocking and asynchronous.
+
+- Blocking code (Read line by line unless the loop is not over it can not execute the next line)
+- Make Applications unresponsive (Blocking code can make the application unresponsive)
+
+```
+console.log('Hello');
+for (let i = 0; i < 1000000000; i++) {
+    // Blocking the event loop
+}
+console.log('World');
+```
+
+- Non-blocking the event loop
+- Here the setTimeout is a non-blocking code. It will not block the event loop.
+- Send setTimeout to the libuv library and it will be executed in the background.
+- Event loop will take care of the rest. and once everything is done it will execute the callback function.
+```
+console.log('start');
+setTimeout(() => {
+    for (let i = 0; i < 1000000000; i++) {
+        // Blocking the event loop
+    }
+    console.log('middle');
+}, 0);
+console.log('end');
+```
+
+- Output:
+```
+start
+end
+middle
+```
+
+--- 
+- Use Cases:
+    - Real-time applications (Chat applications, live notifications)
+    - Data streaming applications (Video streaming, live sports updates)
+    - Microservices (Building applications as a set of small services)
+    - Microframeworks (Like Express.js)
